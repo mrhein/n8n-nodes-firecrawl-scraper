@@ -5,7 +5,6 @@ export const scrapeMethods = {
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 		const returnData: INodeExecutionData[] = [];
-		const operation = this.getNodeParameter('operation', 0) as string;
 
 		// Get credentials
 		const credentials = await this.getCredentials('firecrawlApi');
@@ -14,65 +13,62 @@ export const scrapeMethods = {
 		// Initialize Firecrawl app
 		const firecrawl = new FirecrawlApp({ apiKey });
 
-		// Process operations
-		if (operation === 'scrapeUrl') {
-			// Process each item
-			for (let i = 0; i < items.length; i++) {
-				try {
-					// Get parameters
-					const url = this.getNodeParameter('url', i) as string;
-					const outputFormat = 'markdown';
-					const enableDebugLogs = this.getNodeParameter('enableDebugLogs', i, false) as boolean;
+		// Process each item
+		for (let i = 0; i < items.length; i++) {
+			try {
+				// Get parameters
+				const url = this.getNodeParameter('url', i) as string;
+				const outputFormat = 'markdown';
+				const enableDebugLogs = this.getNodeParameter('enableDebugLogs', i, false) as boolean;
 
-					// Create scrape options
-					const scrapeOptions: any = {
-						formats: [outputFormat],
-					};
+				// Create scrape options
+				const scrapeOptions: any = {
+					formats: [outputFormat],
+				};
 
-					// Log the scrape parameters if debug is enabled
-					if (enableDebugLogs) {
-						console.log('URL:', url);
-						console.log('Scrape options:', JSON.stringify(scrapeOptions, null, 2));
-					}
+				// Log the scrape parameters if debug is enabled
+				if (enableDebugLogs) {
+					console.log('URL:', url);
+					console.log('Scrape options:', JSON.stringify(scrapeOptions, null, 2));
+				}
 
-					// Scrape URL
-					const scrapeResponse = await firecrawl.scrapeUrl(url, scrapeOptions);
+				// Scrape URL
+				const scrapeResponse = await firecrawl.scrapeUrl(url, scrapeOptions);
 
-					// Log the result if debug is enabled
-					if (enableDebugLogs) {
-						console.log('Scrape result:', JSON.stringify(scrapeResponse, null, 2));
-					}
+				// Log the result if debug is enabled
+				if (enableDebugLogs) {
+					console.log('Scrape result:', JSON.stringify(scrapeResponse, null, 2));
+				}
 
-					// Add result to return data
+				// Add result to return data
+				returnData.push({
+					json: {
+						success: true,
+						data: scrapeResponse,
+						debug: enableDebugLogs
+							? {
+									url,
+									options: scrapeOptions,
+								}
+							: undefined,
+					},
+				});
+			} catch (error: unknown) {
+				const errorMessage = error instanceof Error ? error.message : String(error);
+				console.error('Scrape error:', errorMessage);
+
+				if (this.continueOnFail()) {
 					returnData.push({
 						json: {
-							success: true,
-							data: scrapeResponse,
-							debug: enableDebugLogs
-								? {
-										url,
-										options: scrapeOptions,
-									}
-								: undefined,
+							success: false,
+							error: errorMessage,
 						},
 					});
-				} catch (error: unknown) {
-					const errorMessage = error instanceof Error ? error.message : String(error);
-					console.error('Scrape error:', errorMessage);
-
-					if (this.continueOnFail()) {
-						returnData.push({
-							json: {
-								success: false,
-								error: errorMessage,
-							},
-						});
-						continue;
-					}
-					throw new NodeOperationError(this.getNode(), error as Error, {
-						itemIndex: i,
-					});
+					continue;
 				}
+				throw new NodeOperationError(this.getNode(), error as Error, {
+					itemIndex: i,
+				});
 			}
 		}
 

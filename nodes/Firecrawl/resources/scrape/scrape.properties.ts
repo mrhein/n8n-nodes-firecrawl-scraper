@@ -1,29 +1,7 @@
 import { INodeProperties } from 'n8n-workflow';
 
-// Operations for the Scrape resource
-const operations: INodeProperties = {
-	displayName: 'Operation',
-	name: 'operation',
-	type: 'options',
-	noDataExpression: true,
-	displayOptions: {
-		show: {
-			resource: ['scrape'],
-		},
-	},
-	default: 'scrapeUrl',
-	options: [
-		{
-			name: 'Scrape URL',
-			value: 'scrapeUrl',
-			description: 'Scrape a single URL',
-			action: 'Scrape a single URL',
-		},
-	],
-};
-
-// Fields for the Scrape URL operation
-const scrapeUrlFields: INodeProperties[] = [
+// Fields for the Scrape resource
+const scrapeFields: INodeProperties[] = [
 	{
 		displayName: 'URL',
 		name: 'url',
@@ -31,7 +9,6 @@ const scrapeUrlFields: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['scrape'],
-				operation: ['scrapeUrl'],
 			},
 		},
 		default: '',
@@ -46,7 +23,6 @@ const scrapeUrlFields: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['scrape'],
-				operation: ['scrapeUrl'],
 			},
 		},
 		default: false,
@@ -55,4 +31,4 @@ const scrapeUrlFields: INodeProperties[] = [
 ];
 
 // Export all properties for the Scrape resource
-export const scrapeProperties: INodeProperties[] = [operations, ...scrapeUrlFields];
+export const scrapeProperties: INodeProperties[] = [...scrapeFields];

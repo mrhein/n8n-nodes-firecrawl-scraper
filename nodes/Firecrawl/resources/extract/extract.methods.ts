@@ -82,7 +82,6 @@ export const extractMethods = {
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 		const returnData: INodeExecutionData[] = [];
-		const operation = this.getNodeParameter('operation', 0) as string;
 
 		// Get credentials
 		const credentials = await this.getCredentials('firecrawlApi');
@@ -91,95 +90,92 @@ export const extractMethods = {
 		// Initialize Firecrawl app
 		const firecrawl = new FirecrawlApp({ apiKey });
 
-		// Process operations
-		if (operation === 'extractData') {
-			// Process each item
-			for (let i = 0; i < items.length; i++) {
-				try {
-					// Get parameters
-					const urlsInput = this.getNodeParameter('urls', i) as string;
-					const urls = parseUrlsInput(urlsInput);
-					const enableDebugLogs = this.getNodeParameter('enableDebugLogs', i, false) as boolean;
+		// Process each item
+		for (let i = 0; i < items.length; i++) {
+			try {
+				// Get parameters
+				const urlsInput = this.getNodeParameter('urls', i) as string;
+				const urls = parseUrlsInput(urlsInput);
+				const enableDebugLogs = this.getNodeParameter('enableDebugLogs', i, false) as boolean;
 
-					if (urls.length === 0) {
-						throw new NodeOperationError(this.getNode(), 'No valid URLs provided', {
-							itemIndex: i,
-						});
-					}
-
-					const extractionMethod = this.getNodeParameter('extractionMethod', i) as
-						| 'simple'
-						| 'schema';
-					const extractionPrompt = this.getNodeParameter('extractionPrompt', i, '') as string;
-
-					// Create extraction options
-					const extractionOptions: any = {
-						prompt: extractionPrompt,
-					};
-
-					// Handle schema-based extraction
-					if (extractionMethod === 'schema') {
-						const schemaDefinitionType = this.getNodeParameter('schemaDefinitionType', i) as
-							| 'example'
-							| 'manual';
-
-						let schema: any;
-
-						if (schemaDefinitionType === 'example') {
-							const jsonExample = JSON.parse(this.getNodeParameter('jsonExample', i) as string);
-							schema = generateSchemaFromExample(jsonExample);
-						} else {
-							// Manual schema definition
-							schema = JSON.parse(this.getNodeParameter('schemaDefinition', i) as string);
-						}
-
-						extractionOptions.schema = schema;
-					}
-
-					// Log the extraction parameters if debug is enabled
-					if (enableDebugLogs) {
-						console.log('URLs:', urls);
-						console.log('Extraction options:', JSON.stringify(extractionOptions, null, 2));
-					}
-
-					// Extract data from URLs
-					const extractionResult = await firecrawl.extract(urls, extractionOptions);
-
-					// Log the results if debug is enabled
-					if (enableDebugLogs) {
-						console.log('Extraction results:', JSON.stringify(extractionResult, null, 2));
-					}
-
-					// Add results to return data
-					returnData.push({
-						json: {
-							success: true,
-							data: extractionResult,
-							debug: enableDebugLogs
-								? {
-										urls,
-										options: extractionOptions,
-									}
-								: undefined,
-						},
-					});
-				} catch (error: unknown) {
-					const errorMessage = error instanceof Error ? error.message : String(error);
-					console.error('Extraction error:', errorMessage);
-
-					if (this.continueOnFail()) {
-						returnData.push({
-							json: {
-								success: false,
-								error: errorMessage,
-							},
-						});
-						continue;
-					}
-					throw new NodeOperationError(this.getNode(), error as Error, {
+				if (urls.length === 0) {
+					throw new NodeOperationError(this.getNode(), 'No valid URLs provided', {
 						itemIndex: i,
 					});
 				}
+
+				const extractionMethod = this.getNodeParameter('extractionMethod', i) as
+					| 'simple'
+					| 'schema';
+				const extractionPrompt = this.getNodeParameter('extractionPrompt', i, '') as string;
+
+				// Create extraction options
+				const extractionOptions: any = {
+					prompt: extractionPrompt,
+				};
+
+				// Handle schema-based extraction
+				if (extractionMethod === 'schema') {
+					const schemaDefinitionType = this.getNodeParameter('schemaDefinitionType', i) as
+						| 'example'
+						| 'manual';
+
+					let schema: any;
+
+					if (schemaDefinitionType === 'example') {
+						const jsonExample = JSON.parse(this.getNodeParameter('jsonExample', i) as string);
+						schema = generateSchemaFromExample(jsonExample);
+					} else {
+						// Manual schema definition
+						schema = JSON.parse(this.getNodeParameter('schemaDefinition', i) as string);
+					}
+
+					extractionOptions.schema = schema;
+				}
+
+				// Log the extraction parameters if debug is enabled
+				if (enableDebugLogs) {
+					console.log('URLs:', urls);
+					console.log('Extraction options:', JSON.stringify(extractionOptions, null, 2));
+				}
+
+				// Extract data from URLs
+				const extractionResult = await firecrawl.extract(urls, extractionOptions);
+
+				// Log the results if debug is enabled
+				if (enableDebugLogs) {
+					console.log('Extraction results:', JSON.stringify(extractionResult, null, 2));
+				}
+
+				// Add results to return data
+				returnData.push({
+					json: {
+						success: true,
+						data: extractionResult,
+						debug: enableDebugLogs
+							? {
+									urls,
+									options: extractionOptions,
+								}
+							: undefined,
+					},
+				});
+			} catch (error: unknown) {
+				const errorMessage = error instanceof Error ? error.message : String(error);
+				console.error('Extraction error:', errorMessage);
+
+				if (this.continueOnFail()) {
+					returnData.push({
+						json: {
+							success: false,
+							error: errorMessage,
+						},
+					});
+					continue;
+				}
+				throw new NodeOperationError(this.getNode(), error as Error, {
+					itemIndex: i,
+				});
 			}
 		}
 

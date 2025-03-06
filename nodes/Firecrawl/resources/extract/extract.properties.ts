@@ -1,29 +1,7 @@
 import { INodeProperties } from 'n8n-workflow';
 
-// Operations for the Extract resource
-const operations: INodeProperties = {
-	displayName: 'Operation',
-	name: 'operation',
-	type: 'options',
-	noDataExpression: true,
-	displayOptions: {
-		show: {
-			resource: ['extract'],
-		},
-	},
-	default: 'extractData',
-	options: [
-		{
-			name: 'Extract Data',
-			value: 'extractData',
-			description: 'Extract structured data from URLs',
-			action: 'Extract structured data from urls',
-		},
-	],
-};
-
-// Fields for the Extract Data operation
-const extractDataFields: INodeProperties[] = [
+// Fields for the Extract resource
+const extractFields: INodeProperties[] = [
 	{
 		displayName: 'URL(s)',
 		name: 'urls',
@@ -31,7 +9,6 @@ const extractDataFields: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['extract'],
-				operation: ['extractData'],
 			},
 		},
 		default: '',
@@ -47,7 +24,6 @@ const extractDataFields: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['extract'],
-				operation: ['extractData'],
 			},
 		},
 		options: [
@@ -72,7 +48,6 @@ const extractDataFields: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['extract'],
-				operation: ['extractData'],
 				extractionMethod: ['simple', 'schema'],
 			},
 		},
@@ -87,7 +62,6 @@ const extractDataFields: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['extract'],
-				operation: ['extractData'],
 				extractionMethod: ['schema'],
 			},
 		},
@@ -117,7 +91,6 @@ const extractDataFields: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['extract'],
-				operation: ['extractData'],
 				extractionMethod: ['schema'],
 				schemaDefinitionType: ['example'],
 			},
@@ -137,7 +110,6 @@ const extractDataFields: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['extract'],
-				operation: ['extractData'],
 				extractionMethod: ['schema'],
 				schemaDefinitionType: ['manual'],
 			},
@@ -155,7 +127,6 @@ const extractDataFields: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['extract'],
-				operation: ['extractData'],
 			},
 		},
 		default: false,
@@ -164,4 +135,4 @@ const extractDataFields: INodeProperties[] = [
 ];
 
 // Export all properties for the Extract resource
-export const extractProperties: INodeProperties[] = [operations, ...extractDataFields];
+export const extractProperties: INodeProperties[] = [...extractFields];

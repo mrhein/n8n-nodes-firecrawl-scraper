@@ -25,7 +25,7 @@ export class FireCrawlScraper implements INodeType {
 		icon: 'file:../../icons/flames-icon.svg',
 		group: ['transform'],
 		version: 1,
-		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		subtitle: '={{$parameter["resource"]}}',
 		description: 'FireCrawl API for web scraping and crawling',
 		defaults: {
 			name: 'FireCrawl Scraper',

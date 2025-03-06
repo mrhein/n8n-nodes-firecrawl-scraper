@@ -1,29 +1,7 @@
 import { INodeProperties } from 'n8n-workflow';
 
-// Operations for the Crawler resource
-const operations: INodeProperties = {
-	displayName: 'Operation',
-	name: 'operation',
-	type: 'options',
-	noDataExpression: true,
-	displayOptions: {
-		show: {
-			resource: ['crawler'],
-		},
-	},
-	default: 'crawlUrl',
-	options: [
-		{
-			name: 'Crawl URL',
-			value: 'crawlUrl',
-			description: 'Crawl a website',
-			action: 'Crawl a website',
-		},
-	],
-};
-
-// Fields for the Crawl URL operation
-const crawlUrlFields: INodeProperties[] = [
+// Fields for the Crawler resource
+const crawlerFields: INodeProperties[] = [
 	{
 		displayName: 'URL',
 		name: 'url',
@@ -31,7 +9,6 @@ const crawlUrlFields: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['crawler'],
-				operation: ['crawlUrl'],
 			},
 		},
 		default: '',
@@ -49,7 +26,6 @@ const crawlUrlFields: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['crawler'],
-				operation: ['crawlUrl'],
 			},
 		},
 		default: 50,
@@ -58,4 +34,4 @@ const crawlUrlFields: INodeProperties[] = [
 ];
 
 // Export all properties for the Crawler resource
-export const crawlerProperties: INodeProperties[] = [operations, ...crawlUrlFields];
+export const crawlerProperties: INodeProperties[] = [...crawlerFields];
