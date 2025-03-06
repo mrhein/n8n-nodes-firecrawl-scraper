@@ -39,41 +39,35 @@ Follow these steps to install this custom node package in your n8n instance:
 
 ## Nodes
 
-This package includes three nodes:
+This package includes a single Firecrawl node with multiple operations:
 
-### Firecrawl Scrape
+### Firecrawl
 
-Scrape content from a single URL.
+A unified node that provides various operations to interact with the Firecrawl API:
 
-**Input Parameters:**
+**Operations:**
 
-- **URL**: The URL to scrape
-- **Output Format**: Choose one or more output formats (Markdown, HTML, JSON, etc.)
+- **Scrape**: Scrape content from a single URL in Markdown format
+- **Crawl**: Crawl multiple pages of a website and retrieve content in Markdown format
+- **Map**: Generate a list of URLs from a website
+- **Extract**: Extract structured data from URLs using simple extraction or schema-based extraction
 
-### Firecrawl Crawler
+**Common Parameters:**
 
-Crawl multiple pages of a website.
+- **URL**: Required for all operations - specifies the target URL(s)
+- **Enable Debug Logs**: Available for Scrape and Extract operations - enables detailed logging
 
-**Input Parameters:**
+**Operation-Specific Parameters:**
 
-- **URL**: The starting URL to crawl
-- **Limit**: Maximum number of pages to crawl (default: 50)
-- **Output Format**: Choose one or more output formats
-- **Advanced Options**:
-  - **Exclude Paths**: Comma-separated list of path patterns to exclude
-  - **Allow Subdomains**: Whether to crawl subdomains
-  - **Allow External Domains**: Whether to crawl external domains
+- **Crawl**:
 
-### Firecrawl Map
+  - Limit: Maximum number of pages to crawl (default: 50)
 
-Generate a list of URLs from a website.
-
-**Input Parameters:**
-
-- **URL**: The starting URL to map
-- **Advanced Options**:
-  - **Use Sitemap**: Whether to use the sitemap for mapping
-  - **Exclude Subdomains**: Whether to exclude subdomains from mapping
+- **Extract**:
+  - Extraction Method: Simple extraction or Schema-based extraction
+  - Extraction Prompt: Guide the extraction process
+  - Schema Definition Type (for schema-based extraction): Generate from JSON example or define manually
+  - JSON Example or Schema Definition: Define the data structure
 
 ## Credentials
 
@@ -88,25 +82,34 @@ You'll need to set up your Firecrawl API key in the **Firecrawl API** credential
 
 ### Basic Web Scraping
 
-1. Add a **Firecrawl Scrape** node
-2. Set the URL to the webpage you want to scrape
-3. Choose "Markdown" as the output format
+1. Add a **Firecrawl** node
+2. Select the **Scrape** operation
+3. Set the URL to the webpage you want to scrape
 4. Connect to nodes like ChatGPT or Text processors to analyze the scraped content
 
 ### Website Crawling for Data Extraction
 
-1. Add a **Firecrawl Crawler** node
-2. Set the URL to the website you want to crawl
-3. Set a limit (e.g., 10 pages)
-4. Choose appropriate output formats
+1. Add a **Firecrawl** node
+2. Select the **Crawl** operation
+3. Set the URL to the website you want to crawl
+4. Set a limit (e.g., 10 pages)
 5. Connect to database nodes to store the extracted data
 
 ### Website Mapping for SEO Analysis
 
-1. Add a **Firecrawl Map** node
-2. Set the URL to the website you want to map
-3. Enable "Use Sitemap" in Advanced Options
+1. Add a **Firecrawl** node
+2. Select the **Map** operation
+3. Set the URL to the website you want to map
 4. Connect to spreadsheet or visualization nodes to analyze the site structure
+
+### Structured Data Extraction
+
+1. Add a **Firecrawl** node
+2. Select the **Extract** operation
+3. Set the URL(s) to extract data from
+4. Choose the extraction method (Simple or Schema-based)
+5. If using Schema-based extraction, define your schema or provide a JSON example
+6. Use the extracted structured data in your workflow
 
 ## License
 

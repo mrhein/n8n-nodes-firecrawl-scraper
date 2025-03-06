@@ -12,7 +12,7 @@ export class FirecrawlCrawl implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Firecrawl Crawl',
 		name: 'firecrawlCrawl',
-		icon: 'file:../../icons/firecrawl-crawler.svg',
+		icon: 'file:../../icons/flames-icon.svg',
 		group: ['transform'],
 		version: 1,
 		description: 'Crawl a website using Firecrawl API',

@@ -89,7 +89,7 @@ export class FirecrawlExtract implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Firecrawl Extract',
 		name: 'firecrawlExtract',
-		icon: 'file:../../icons/firecrawl-extract.svg',
+		icon: 'file:../../icons/flames-icon.svg',
 		group: ['transform'],
 		version: 1,
 		description: 'Extract structured data from URLs using Firecrawl API and LLM',
