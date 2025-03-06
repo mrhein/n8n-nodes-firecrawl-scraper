@@ -1,0 +1,104 @@
+# n8n-nodes-firecrawl-scraper
+
+This package contains n8n nodes for working with the Firecrawl API, allowing you to scrape, crawl, and map websites directly within your n8n workflows.
+
+## Prerequisites
+
+- A Firecrawl API key (get one from [firecrawl.dev](https://firecrawl.dev))
+- n8n instance (v1.0.0 or later)
+
+## Installation
+
+Follow these steps to install this custom node package in your n8n instance:
+
+### In an existing n8n instance
+
+1. Go to **Settings > Community Nodes**
+2. Select **Install**
+3. Enter `n8n-nodes-firecrawl-scraper` in the **Name** field
+4. Agree to the risks of using community nodes
+5. Click **Install**
+
+### Manually (Development)
+
+1. Clone this repository
+2. Navigate to the directory: `cd n8n-nodes-firecrawl-scraper`
+3. Install dependencies: `npm install`
+4. Build the code: `npm run build`
+5. Link to your n8n installation: `npm link`
+6. In your n8n installation directory, run: `npm link n8n-nodes-firecrawl-scraper`
+
+## Nodes
+
+This package includes three nodes:
+
+### Firecrawl Scrape
+
+Scrape content from a single URL.
+
+**Input Parameters:**
+
+- **URL**: The URL to scrape
+- **Output Format**: Choose one or more output formats (Markdown, HTML, JSON, etc.)
+
+### Firecrawl Crawler
+
+Crawl multiple pages of a website.
+
+**Input Parameters:**
+
+- **URL**: The starting URL to crawl
+- **Limit**: Maximum number of pages to crawl (default: 50)
+- **Output Format**: Choose one or more output formats
+- **Advanced Options**:
+  - **Exclude Paths**: Comma-separated list of path patterns to exclude
+  - **Allow Subdomains**: Whether to crawl subdomains
+  - **Allow External Domains**: Whether to crawl external domains
+
+### Firecrawl Map
+
+Generate a list of URLs from a website.
+
+**Input Parameters:**
+
+- **URL**: The starting URL to map
+- **Advanced Options**:
+  - **Use Sitemap**: Whether to use the sitemap for mapping
+  - **Exclude Subdomains**: Whether to exclude subdomains from mapping
+
+## Credentials
+
+You'll need to set up your Firecrawl API key in the **Firecrawl API** credential type:
+
+1. In your n8n workflow, add any Firecrawl node
+2. Click the **Create new credential** button
+3. Enter your Firecrawl API key
+4. Save the credential
+
+## Examples
+
+### Basic Web Scraping
+
+1. Add a **Firecrawl Scrape** node
+2. Set the URL to the webpage you want to scrape
+3. Choose "Markdown" as the output format
+4. Connect to nodes like ChatGPT or Text processors to analyze the scraped content
+
+### Website Crawling for Data Extraction
+
+1. Add a **Firecrawl Crawler** node
+2. Set the URL to the website you want to crawl
+3. Set a limit (e.g., 10 pages)
+4. Choose appropriate output formats
+5. Connect to database nodes to store the extracted data
+
+### Website Mapping for SEO Analysis
+
+1. Add a **Firecrawl Map** node
+2. Set the URL to the website you want to map
+3. Enable "Use Sitemap" in Advanced Options
+4. Connect to spreadsheet or visualization nodes to analyze the site structure
+
+## License
+
+[MIT](LICENSE.md)

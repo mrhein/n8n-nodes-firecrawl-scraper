@@ -1,0 +1,10 @@
+---
+description: Use this rule when editing custom nodes for n8n
+globs: 
+alwaysApply: false
+---
+
+# Your rule content
+
+- don't use names like Schema-based, just leave it "Schema Based"
+- don't use Timeout (MS) leave it Timeout (Ms)
