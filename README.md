@@ -1,6 +1,15 @@
 # n8n-nodes-firecrawl-scraper
 
-This package contains n8n nodes for working with the Firecrawl API, allowing you to scrape, crawl, and map websites directly within your n8n workflows.
+This package contains n8n nodes for working with the Firecrawl API, allowing you to scrape, crawl, and map websites directly within your n8n workflows. It serves as a wrapper around the [Firecrawl npm SDK](https://www.npmjs.com/package/@mendable/firecrawl-js), primarily focusing on the extract feature.
+
+> **Note:** This project is still in development. Features and functionality may change.
+
+## Support and Feedback
+
+For support, feedback, or to contribute to this project:
+
+- GitHub Repository: [n8n-nodes-firecrawl-scraper](https://github.com/leonardogrig/n8n-nodes-firecrawl-scraper)
+- Tutorial Video: [Watch on YouTube](https://youtu.be/j19nN38cIXI)
 
 ## Prerequisites
 
