@@ -7,11 +7,14 @@ export const crawlerMethods = {
 		const returnData: INodeExecutionData[] = [];
 
 		// Get credentials
-		const credentials = await this.getCredentials('firecrawlApi');
-		const apiKey = credentials.apiKey as string;
+		const { apiKey, apiUrl } = await this.getCredentials('firecrawlApi') as {
+			apiKey: string;
+			apiUrl?: string
+		};
 
 		// Initialize Firecrawl app
-		const firecrawl = new FirecrawlApp({ apiKey });
+		const baseUrl = apiUrl || 'https://api.firecrawl.dev';
+    	const firecrawl = new FirecrawlApp({ apiKey, apiUrl: baseUrl });
 
 		// Process each item
 		for (let i = 0; i < items.length; i++) {
