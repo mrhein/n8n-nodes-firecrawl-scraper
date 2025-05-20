@@ -91,7 +91,7 @@ export const extractMethods = {
 
 		// Initialize Firecrawl app
 		const baseUrl = apiUrl || 'https://api.firecrawl.dev';
-    	const firecrawl = new FirecrawlApp({ apiKey, apiUrl: baseUrl });
+		const firecrawl = new FirecrawlApp({ apiKey, apiUrl: baseUrl });
 
 		// Process each item
 		for (let i = 0; i < items.length; i++) {
