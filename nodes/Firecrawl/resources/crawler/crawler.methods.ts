@@ -23,14 +23,13 @@ export const crawlerMethods = {
 				const url = this.getNodeParameter('url', i) as string;
 				const limit = this.getNodeParameter('limit', i) as number;
 
-				// Prepare crawl parameters
-				const crawlParams: any = {
-					limit,
-					formats: ['markdown'], // Only use markdown format
-				};
-
 				// Crawl URL
-				const crawlResponse = await firecrawl.crawlUrl(url, crawlParams);
+				const crawlResponse = await firecrawl.crawlUrl(url, {
+					limit,
+					scrapeOptions: {
+						formats: ['markdown'],
+					}
+				});
 
 				// Add result to return data
 				returnData.push({
