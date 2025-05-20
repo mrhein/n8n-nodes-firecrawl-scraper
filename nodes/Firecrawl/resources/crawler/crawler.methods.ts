@@ -23,18 +23,18 @@ export const crawlerMethods = {
 				const url = this.getNodeParameter('url', i) as string;
 				const limit = this.getNodeParameter('limit', i) as number;
 				const onlyMainContent = this.getNodeParameter('onlyMainContent', i, false) as boolean;
-				const includeTags = this.getNodeParameter('includeTags', i) as string[];
-				const excludeTags = this.getNodeParameter('excludeTags', i) as string[];
+				const includeTags = this.getNodeParameter('includeTags', i) as string;
+				const excludeTags = this.getNodeParameter('excludeTags', i) as string;
 				// formats with default value of ["markdown"]
 				const formats = this.getNodeParameter('formats', i) as string[] || ['markdown'];
 				let scrapeOptions: any = {
 					formats: formats
 				};
 				if (includeTags.length > 0) {
-					scrapeOptions.includeTags = includeTags.map((tag) => tag.trim());
+					scrapeOptions.includeTags = includeTags.split(',').map((tag) => tag.trim());
 				}
 				if (excludeTags.length > 0) {
-					scrapeOptions.excludeTags = excludeTags.map((tag) => tag.trim());
+					scrapeOptions.excludeTags = excludeTags.split(',').map((tag) => tag.trim());
 				}
 				if (onlyMainContent) {
 					scrapeOptions.onlyMainContent = onlyMainContent;
